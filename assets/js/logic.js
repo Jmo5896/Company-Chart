@@ -1,20 +1,25 @@
 let chartData;
+let chart;
 window.onload = () => {
     const WORKBOOK = '1YYrkklWddotgB6Ds-2KlbAJ_ZHX3Cot-BhKIBfKLIUY';
     const googleSheetURL = `https://spreadsheets.google.com/feeds/cells/${WORKBOOK}/1/public/full?alt=json`;
     d3.json(googleSheetURL).then(data => {
         chartData = cleanSheets(data);
-        console.log(chartData)
+        chart = buildChart(chartData);
     })
+    
+    
+    function buildChart(data) {
+        console.log(data)
 
-    var chart = new OrgChart(document.getElementById("tree"), {
-        template: "luba",
+        const chart = new OrgChart(document.getElementById("tree"), {
+            template: "luba",
         layout: OrgChart.mixed,
         nodeBinding: {
             img_0: "img",
             field_0: "name",
             field_1: "title"
-
+            
         },
         nodes: [
             { id: "1", name: "Jack Hill", title: "Chairman and CEO", email: "amber@domain.com", img: "https://cdn.balkan.app/shared/1.jpg" },
@@ -35,6 +40,10 @@ window.onload = () => {
             { id: "16", pid: "4", name: "Alex Snider", title: "Sales Manager", img: "https://cdn.balkan.app/shared/16.jpg" }
         ]
     });
+    return chart;
+}
+    
+    //DROP DOWN MENU 
     document.getElementById("selectTemplate").addEventListener("change", function () {
         chart.config.template = this.value;
         chart.draw();

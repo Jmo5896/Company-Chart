@@ -23,40 +23,50 @@ window.onload = () => {
                 levels[emp['Reports to']] = [emp];
             }
         });
-        // levels.head[0].pid = '0';
-        let nodes = levels.CEO.map(emp => {
-            emp.pid = 1;
-            return emp;
+        levels.CEO= levels.CEO.map((emp,i) => {
+            emp.pidLvl = i+2;
+            return emp
         });
-        nodes = [...levels.head];
+    
+        levels.head[0].pidLvl= 1;
+        let nodes = [...levels.head];
         delete levels.head;
         console.log(levels);
-        let pidCount = 1;
-        while (Object.keys(levels).length > 0) {
-            nodes.forEach(emp => {
-                const title = emp.Title;
-                if (title in levels) {
-                    levels[title].forEach(emp2 => {
-                        emp2.pid = pidCount;
-                    });
-                    nodes = [...nodes, ...levels[title]];
-                    delete levels[title];
-                } else {
-                    pidCount++;
-                }
-            })
-        }
-        nodes = nodes.map(emp => {
-            delete emp["Department Description"];
-            delete emp["Email"];
-            delete emp["Office Location"];
-            delete emp["Picture"];
-            delete emp["Reports to"];
-            delete emp["Title"];
-            delete emp["Work Phone"];
-            return emp
-        })
-        console.log(nodes.slice(0, 6));
+
+        let pidCount = 0;
+        let pidLvls = levels.CEO.map(emp => emp.pidLvl);
+        Object.keys(levels).forEach(lvl => {
+            if (lvl === 'CEO'){
+
+                const curLvl = levels[lvl].map(emp => {
+                    emp.pid = 1
+                    return emp;
+                });
+                nodes = [...nodes, ...curLvl];
+            } else {
+                const curLvl = levels[lvl].map((emp,i) => {
+                    emp.pid = pidLvls[pidCount];
+                    console.log(emp.pid)
+                    emp.pidLvl =  emp.pid+5;
+                    return emp;
+                });
+                nodes = [...nodes, ...curLvl];
+                pidLvls = levels[lvl].map(emp => emp.pidLvl);
+                pidCount++;
+            }
+
+        });
+        // nodes = nodes.map(emp => {
+        //     delete emp["Department Description"];
+        //     delete emp["Email"];
+        //     delete emp["Office Location"];
+        //     delete emp["Picture"];
+        //     delete emp["Reports to"];
+        //     delete emp["Title"];
+        //     delete emp["Work Phone"];
+        //     return emp
+        // })
+        console.log(nodes);
         const chart = new OrgChart(document.getElementById("tree"), {
             template: "luba",
             layout: OrgChart.mixed,

@@ -1,4 +1,12 @@
-window.onload = function () {
+let chartData;
+window.onload = () => {
+    const WORKBOOK = '1YYrkklWddotgB6Ds-2KlbAJ_ZHX3Cot-BhKIBfKLIUY';
+    const googleSheetURL = `https://spreadsheets.google.com/feeds/cells/${WORKBOOK}/1/public/full?alt=json`;
+    d3.json(googleSheetURL).then(data => {
+        chartData = cleanSheets(data);
+        console.log(chartData)
+    })
+
     var chart = new OrgChart(document.getElementById("tree"), {
         template: "luba",
         layout: OrgChart.mixed,

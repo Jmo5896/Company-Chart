@@ -20,6 +20,7 @@ window.onload = () => {
                 Email: node.Email,
                 'Work Phone': node['Work Phone'],
                 Title: node.Title
+                
             }
 
             if (node.Pid === 'n/a') {

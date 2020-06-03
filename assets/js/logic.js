@@ -11,51 +11,68 @@ window.onload = () => {
 
 
     function buildChart(data) {
-        console.log(data)
-        let levels = {}
-        data.map((emp, i) => {
-            emp.id = i+1;
-            if (emp['Reports to'] in levels) {
-                // console.log(i);
-
-                levels[emp['Reports to']] = [...levels[emp['Reports to']], emp];
-            } else {
-                levels[emp['Reports to']] = [emp];
-            }
-        });
-        levels.CEO= levels.CEO.map((emp,i) => {
-            emp.pidLvl = i+2;
-            return emp
-        });
-    
-        levels.head[0].pidLvl= 1;
-        let nodes = [...levels.head];
-        delete levels.head;
-        console.log(levels);
-
-        let pidCount = 0;
-        let pidLvls = levels.CEO.map(emp => emp.pidLvl);
-        Object.keys(levels).forEach(lvl => {
-            if (lvl === 'CEO'){
-
-                const curLvl = levels[lvl].map(emp => {
-                    emp.pid = 1
-                    return emp;
-                });
-                nodes = [...nodes, ...curLvl];
-            } else {
-                const curLvl = levels[lvl].map((emp,i) => {
-                    emp.pid = pidLvls[pidCount];
-                    console.log(emp.pid)
-                    emp.pidLvl =  emp.pid+5;
-                    return emp;
-                });
-                nodes = [...nodes, ...curLvl];
-                pidLvls = levels[lvl].map(emp => emp.pidLvl);
-                pidCount++;
+        const nodes = data.map((node, i) => {
+            const obj = {
+                id: i+1,
+                pid: node.Pid,
+                Department: node.Department,
+                Name: node.Name,
+                Email: node.Email,
+                'Work Phone': node['Work Phone'],
+                Title: node.Title
             }
 
+            if (node.Pid === 'n/a') {
+                delete obj.pid;
+            }
+
+            return obj;
         });
+        console.log(nodes)
+        // let levels = {}
+        // data.map((emp, i) => {
+        //     emp.id = i+1;
+        //     if (emp['Reports to'] in levels) {
+        //         // console.log(i);
+
+        //         levels[emp['Reports to']] = [...levels[emp['Reports to']], emp];
+        //     } else {
+        //         levels[emp['Reports to']] = [emp];
+        //     }
+        // });
+        // levels.CEO= levels.CEO.map((emp,i) => {
+        //     emp.pidLvl = i+2;
+        //     return emp
+        // });
+
+        // levels.head[0].pidLvl= 1;
+        // let nodes = [...levels.head];
+        // delete levels.head;
+        // console.log(levels);
+
+        // let pidCount = 0;
+        // let pidLvls = levels.CEO.map(emp => emp.pidLvl);
+        // Object.keys(levels).forEach(lvl => {
+        //     if (lvl === 'CEO'){
+
+        //         const curLvl = levels[lvl].map(emp => {
+        //             emp.pid = 1
+        //             return emp;
+        //         });
+        //         nodes = [...nodes, ...curLvl];
+        //     } else {
+        //         const curLvl = levels[lvl].map((emp,i) => {
+        //             emp.pid = pidLvls[pidCount];
+        //             console.log(emp.pid)
+        //             emp.pidLvl =  emp.pid+5;
+        //             return emp;
+        //         });
+        //         nodes = [...nodes, ...curLvl];
+        //         pidLvls = levels[lvl].map(emp => emp.pidLvl);
+        //         pidCount++;
+        //     }
+
+        // });
         // nodes = nodes.map(emp => {
         //     delete emp["Department Description"];
         //     delete emp["Email"];
@@ -66,7 +83,7 @@ window.onload = () => {
         //     delete emp["Work Phone"];
         //     return emp
         // })
-        console.log(nodes);
+        // console.log(nodes);
         const chart = new OrgChart(document.getElementById("tree"), {
             template: "luba",
             layout: OrgChart.mixed,
@@ -82,9 +99,9 @@ window.onload = () => {
             //     name: "Bernard Blea",
             //     email: "1@gmail.com",
             //     title: "CEO",
-            //     id: "0"
-
+            //     id: "0",
             // }]
+
             // nodes: [
             //     { id: "1", name: "Jack Hill", title: "Chairman and CEO", email: "amber@domain.com", img: "https://cdn.balkan.app/shared/1.jpg" },
             //     { id: "2", pid: "1", name: "Lexie Cole", title: "QA Lead", email: "ava@domain.com", img: "https://cdn.balkan.app/shared/2.jpg" },

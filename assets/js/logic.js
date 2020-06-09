@@ -13,7 +13,7 @@ window.onload = () => {
     function buildChart(data) {
         const nodes = data.map((node, i) => {
             const obj = {
-                id: i + 1,
+                id: node.id,
                 pid: node.Pid,
                 Department: node.Department,
                 Name: node.Name,
@@ -30,30 +30,6 @@ window.onload = () => {
 
             return obj;
         });
-        // console.log(nodes)
-
-        let levels = {};
-        nodes.forEach(node => {
-            const rpt2 = node['Reports to'];
-            if (rpt2 !== 'head') {
-                if (rpt2 in levels) {
-                    levels[rpt2].emp.push(node);
-                    levels[rpt2].count ++;
-                } else {
-
-                    levels[rpt2] = {
-                        emp: [node],
-                        count: 1
-                    }
-                }
-
-
-            }
-        });
-        
-        console.log(levels)
-        const lvlKeys = Object.keys(levels);
-        titles = []
         
         const chart = new OrgChart(document.getElementById('tree'), {
             template: 'luba',

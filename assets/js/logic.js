@@ -13,7 +13,7 @@ window.onload = () => {
     function buildChart(data) {
         const nodes = data.map((node, i) => {
             const obj = {
-                id: node.id,
+                id: node.Id,
                 pid: node.Pid,
                 Department: node.Department,
                 Name: node.Name,

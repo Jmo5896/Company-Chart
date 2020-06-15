@@ -6,6 +6,7 @@ window.onload = () => {
     d3.json(googleSheetURL).then(data => {
         chartData = cleanSheets(data);
         chart = buildChart(chartData);
+        console.log(chartData)
     })
 
 
@@ -14,18 +15,16 @@ window.onload = () => {
         const nodes = data.map((node, i) => {
             const obj = {
                 id: node.Id,
-                pid: node.Pid,
-                Department: node.Department,
-                Name: node.Name,
-                Email: node.Email,
-                'Work Phone': node['Work Phone'],
-                Title: node.Title,
-                'Reports to': node['Reports to']
-
+                pid: node.Pid
             }
-
             if (node.Pid === 'n/a') {
                 delete obj.pid;
+            }
+            delete node.Pid;
+            delete node.Id;
+
+            for (let key in node) {
+                obj[key] = node[key];
             }
 
             return obj;

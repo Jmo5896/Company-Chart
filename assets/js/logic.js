@@ -34,20 +34,14 @@ window.onload = () => {
             template: 'luba',
             layout: OrgChart.mixed,
             nodeBinding: {
-                field_0: 'Title',
-                field_1: 'Name'
+                field_0: 'Name',
+                field_1: 'Title',
+                // field_2: 'Department',
+                // field_3: 'SME'
 
 
             },
             nodes: nodes
-            // nodes: [{
-            //     department: 'Executive',
-            //     name: 'Bernard Blea',
-            //     email: '1@gmail.com',
-            //     title: 'CEO',
-            //     id: '0',
-            // }]
-
             // nodes: [
             //     { id: '1', name: 'Jack Hill', title: 'Chairman and CEO', email: 'amber@domain.com', img: 'https://cdn.balkan.app/shared/1.jpg' },
             //     { id: '2', pid: '1', name: 'Lexie Cole', title: 'QA Lead', email: 'ava@domain.com', img: 'https://cdn.balkan.app/shared/2.jpg' },
